@@ -8,10 +8,24 @@ const wRate = 7;
 
 let parkForm = document.getElementById('parking-form');
 let footer = document.querySelector('footer');
-parkForm.addEventListener("submit", function (e) {
+parkForm.addEventListener("sumbit", function (e) {
     e.preventDefault();
     let newElement = document.createElement("p");
-    
+
+    const CC = document.querySelector('#credit-card').value
+
+    console.log(`CC valid: ${validateCardNumber(CC)}`);
+
+    if (validateCardNumber(CC) == false) {
+        document.querySelector('#credit-card').classList.add('wrong');
+        document.querySelector('#credit-card').setCustomValidity('Enter Valid CC Number');
+        document.querySelector('#credit-card').reportValidity();
+        return
+    } else {
+        document.querySelector('#credit-card').classList.remove('wrong');
+        document.querySelector('#credit-card').setCustomValidity('');
+       
+
     const days = document.querySelector('#days').value;
     const start = document.querySelector('#start-date').value;
     console.log(start);
@@ -20,7 +34,7 @@ parkForm.addEventListener("submit", function (e) {
     let text = document.createTextNode(`The price is $${cost}`);
     newElement.appendChild(text);
     footer.appendChild(newElement);
-
+    }
 });
 
 function rate(days, start) {
@@ -63,4 +77,19 @@ function luhnCheck(val) {
         sum += intVal;
     }
     return (sum % 10) == 0;
+}
+
+
+
+
+function expCheck(date) {
+    let exp = document.querySelector('#expiration').value
+    let today = new Date();
+    let month = today.getMonth();
+    let shortYear = today.getFullYear() % 100;
+    console.log(month)
+    console.log(shortYear)
+    let expMonth = +(exp.slice(2) + exp.slice(0,3));
+
+
 }
